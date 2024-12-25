@@ -50,5 +50,19 @@ func main() {
 		result += int(diff)
 	}
 
-	fmt.Println(result)
+	fmt.Println("Total distance: ", result)
+
+	// Calculate similarity
+	arr2Counts := make(map[int]int)
+	for _, num := range arr2 {
+		arr2Counts[num] = arr2Counts[num] + 1
+	}
+
+	similarity := 0
+	for _, num := range arr1 {
+		if arr2Counts[num] > 0 {
+			similarity += num * arr2Counts[num]
+		}
+	}
+	fmt.Println("Total similarity: ", similarity)
 }
