@@ -2,6 +2,9 @@ const std = @import("std");
 const fs = std.fs;
 const print = std.debug.print;
 
+// References:
+// https://cookbook.ziglang.cc/01-01-read-file-line-by-line.html
+
 pub fn main() !void {
     print("Hello, world!\n", .{});
 
