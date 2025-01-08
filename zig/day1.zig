@@ -12,6 +12,11 @@ pub fn main() !void {
     defer _ = gpa.deinit();
     const allocator = gpa.allocator();
 
+    var first_numbers = std.ArrayList(i64).init(allocator);
+    defer first_numbers.deinit();
+    var second_numbers = std.ArrayList(i64).init(allocator);
+    defer second_numbers.deinit();
+
     const file = try fs.cwd().openFile("../input-1.txt", .{});
     defer file.close();
 
@@ -31,6 +36,16 @@ pub fn main() !void {
         line_no += 1;
 
         print("{d}--{s}\n", .{ line_no, line.items });
+
+        var iter = std.mem.tokenize(u8, line.items, " ");
+        if (iter.next()) |num_str| {
+            const num = try std.fmt.parseInt(i64, num_str, 10);
+            try first_numbers.append(num);
+        }
+        if (iter.next()) |num_str| {
+            const num = try std.fmt.parseInt(i64, num_str, 10);
+            try second_numbers.append(num);
+        }
     } else |err| switch (err) {
         error.EndOfStream => {
             if (line.items.len > 0) {
@@ -41,5 +56,15 @@ pub fn main() !void {
         else => return err, // propagate error
     }
 
-    print("Total lines: {d}\n", .{ line_no });
+    print("First numbers: ", .{});
+    for (first_numbers.items) |num| {
+        print("{d} ", .{num});
+    }
+
+    print("\nSecond numbers: ", .{});
+    for (second_numbers.items) |num| {
+        print("{d} ", .{num});
+    }
+
+    print("Total lines: {d}\n", .{line_no});
 }
