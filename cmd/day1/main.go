@@ -10,15 +10,42 @@ import (
 )
 
 func main() {
-	inputData, err := os.ReadFile("input-1.txt")
+	lines, err := ReadLines("input-1.txt")
+	if err != nil {
+		fmt.Println("Read lines error: ", err)
+		return
+	}
+
+	arr1, arr2, err := ParseTwoColumnNumbers(lines)
+	if err != nil {
+		fmt.Println("Parse numbers error: ", err)
+		return
+	}
+
+	sort.Ints(arr1)
+	sort.Ints(arr2)
+
+	result := GetTotalDistance(arr1, arr2)
+	fmt.Println("Total distance: ", result) // 1319616
+
+	// Calculate similarity
+	similarity := GetTotalSimilarity(arr1, arr2)
+	fmt.Println("Total similarity: ", similarity) // 27267728
+}
+
+func ReadLines(fileName string) ([]string, error) {
+	inputData, err := os.ReadFile(fileName)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return nil, err
 	}
 
 	inputStr := string(inputData)
 	lines := strings.Split(inputStr, "\n")
+	return lines, nil
+}
 
+func ParseTwoColumnNumbers(lines []string) ([]int, []int, error) {
 	arr1 := make([]int, 0)
 	arr2 := make([]int, 0)
 
@@ -30,28 +57,30 @@ func main() {
 		num1, err := strconv.Atoi(numbers[0])
 		if err != nil {
 			fmt.Println(err)
-			return
+			return nil, nil, err
 		}
 		arr1 = append(arr1, num1)
 
 		num2, err := strconv.Atoi(numbers[1])
 		if err != nil {
 			fmt.Println(err)
-			return
+			return nil, nil, err
 		}
 		arr2 = append(arr2, num2)
 	}
-	sort.Ints(arr1)
-	sort.Ints(arr2)
+	return arr1, arr2, nil
+}
 
+func GetTotalDistance(arr1 []int, arr2 []int) int {
 	result := 0
 	for i := 0; i < len(arr1); i++ {
 		diff := math.Abs(float64(arr1[i] - arr2[i]))
 		result += int(diff)
 	}
+	return result
+}
 
-	fmt.Println("Total distance: ", result)
-
+func GetTotalSimilarity(arr1 []int, arr2 []int) int {
 	// Calculate similarity
 	arr2Counts := make(map[int]int)
 	for _, num := range arr2 {
@@ -64,5 +93,5 @@ func main() {
 			similarity += num * arr2Counts[num]
 		}
 	}
-	fmt.Println("Total similarity: ", similarity)
+	return similarity
 }
