@@ -5,7 +5,9 @@ The purpose of this project is purely for fun, to practice my skills in multiple
 Go:
 
 ```sh
-go run day1.go
+go run cmd/day1/main.go
+go run cmd/day2/main.go
+# etc..
 ```
 
 Clojure:
