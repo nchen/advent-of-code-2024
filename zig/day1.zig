@@ -37,7 +37,7 @@ pub fn main() !void {
 
         print("{d}--{s}\n", .{ line_no, line.items });
 
-        var iter = std.mem.tokenize(u8, line.items, " ");
+        var iter = std.mem.tokenizeSequence(u8, line.items, " ");
         if (iter.next()) |num_str| {
             const num = try std.fmt.parseInt(i64, num_str, 10);
             try first_numbers.append(num);
