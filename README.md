@@ -1,6 +1,8 @@
 # Advent of code 2024
 
-The purpose of this project is purely for fun, to practice my skills in multiple programming languages.
+<https://adventofcode.com/2024>
+
+The purpose of this project is for fun, to practice my skills in multiple programming languages.
 
 Go:
 
